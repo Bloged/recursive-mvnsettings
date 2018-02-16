@@ -1,0 +1,25 @@
+#!/bin/bash
+
+function __recursive_mvnsettings_mvn {
+  mvn_cmd=$(whereis mvn | awk '{print $2}')
+  mvnsettings_file=$(__recursive_mvnsettings_closest)
+  if [ "$mvnsettings_file" != '']; then
+    ${mvn_cmd} -s ${mvnsettings_file} "$@"
+  else
+    ${mvn_cmd} "$@"
+  fi
+}
+
+function __recursive_mvnsettings_closest {
+  slashes=${PWD//[^\/]/}
+  directory="${PWD}"
+
+  for (( n=${#slashes}; n>0; --n )); do
+    test -e "$directory/settings.xml" && echo "$directory/settings.xml" && return
+    directory="$directory/.."
+  done
+
+  echo $directory/settings.xml
+}
+
+alias nvm='__recursive_mvnsettings_mvn'
