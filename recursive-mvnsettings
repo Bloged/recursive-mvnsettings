@@ -22,4 +22,4 @@ function __recursive_mvnsettings_closest {
   echo $directory/settings.xml
 }
 
-alias nvm='__recursive_mvnsettings_mvn'
+alias mvn='__recursive_mvnsettings_mvn'
